@@ -609,6 +609,16 @@
       margin-right: 10px;
     }
 
+    .btn-success {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
     .products-table {
       width: 100%;
       background: #fff;
@@ -926,6 +936,14 @@
         <!-- Список товаров -->
         <div id="admin-products-section" class="admin-section active">
           <h2>Управление товарами</h2>
+          <div style="margin-bottom: 20px;">
+            <button class="btn-success" onclick="exportProducts()">
+              <i class="fas fa-download"></i> Скачать файл с товарами
+            </button>
+            <p style="margin-top: 10px; font-size: 14px; color: #666;">
+              После добавления товаров скачайте файл и загрузите его в корень репозитория с именем <strong>products.json</strong>
+            </p>
+          </div>
           <div id="adminProductsList"></div>
         </div>
         
@@ -1041,9 +1059,24 @@
   }
 
   // ========== ЗАГРУЗКА ТОВАРОВ ==========
-  function loadProducts() {
-    const saved = localStorage.getItem('specprofi_products');
-    products = saved ? JSON.parse(saved) : [];
+  async function loadProducts() {
+    // Сначала пробуем загрузить из внешнего файла products.json
+    try {
+      const response = await fetch('products.json');
+      if (response.ok) {
+        products = await response.json();
+        localStorage.setItem('specprofi_products', JSON.stringify(products));
+      } else {
+        // Если файла нет, загружаем из localStorage
+        const saved = localStorage.getItem('specprofi_products');
+        products = saved ? JSON.parse(saved) : [];
+      }
+    } catch (e) {
+      // Если ошибка, загружаем из localStorage
+      const saved = localStorage.getItem('specprofi_products');
+      products = saved ? JSON.parse(saved) : [];
+    }
+    
     extractCategories();
     renderCategories();
     renderPopularCategories();
@@ -1055,9 +1088,19 @@
     products.forEach(p => { if (p.category) categories.add(p.category); });
   }
 
-  function saveProducts() {
+  function saveProductsToLocalStorage() {
     localStorage.setItem('specprofi_products', JSON.stringify(products));
-    loadProducts();
+  }
+
+  // ========== ЭКСПОРТ ТОВАРОВ ==========
+  function exportProducts() {
+    const dataStr = JSON.stringify(products, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'products.json';
+    link.click();
+    showNotification('Файл products.json скачан. Загрузите его в корень репозитория на GitHub!');
   }
 
   // ========== РЕНДЕР КАТЕГОРИЙ ==========
@@ -1402,12 +1445,12 @@
     if (!confirm('Удалить товар?')) return;
     
     products = products.filter(p => p.id !== id);
-    localStorage.setItem('specprofi_products', JSON.stringify(products));
+    saveProductsToLocalStorage();
     loadProducts();
     renderAdminProductsList();
     updateAdminCategoriesDatalist();
     
-    showNotification('Товар удалён');
+    showNotification('Товар удалён. Не забудьте скачать обновлённый файл с товарами!');
   }
 
   function saveAdminProduct(event) {
@@ -1450,12 +1493,14 @@
       showNotification('Товар добавлен');
     }
     
-    localStorage.setItem('specprofi_products', JSON.stringify(products));
+    saveProductsToLocalStorage();
     loadProducts();
     updateAdminCategoriesDatalist();
     
     cancelAdminEdit();
     showAdminSection('products');
+    
+    showNotification('Не забудьте скачать обновлённый файл с товарами!');
   }
 
   function cancelAdminEdit() {

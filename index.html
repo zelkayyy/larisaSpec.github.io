@@ -67,14 +67,13 @@
     }
 
     .geo-selector {
-      cursor: pointer;
-      background: rgba(255,255,255,0.1);
-      padding: 4px 12px;
-      border-radius: 20px;
+      color: #ccd9e6;
+      font-size: 14px;
     }
 
-    .geo-selector:hover {
-      background: rgba(255,255,255,0.2);
+    .geo-selector i {
+      margin-right: 6px;
+      color: #f5c84e;
     }
 
     .user-links a {
@@ -361,23 +360,12 @@
     .product-detail-description {
       margin: 20px 0;
       line-height: 1.6;
-    }
-
-    .product-detail-specs {
-      background: #f5f9ff;
+      white-space: pre-line;
+      font-size: 15px;
+      color: #2c3e50;
+      background: #f8fafc;
       padding: 20px;
       border-radius: 12px;
-      margin: 20px 0;
-    }
-
-    .spec-row {
-      display: flex;
-      margin-bottom: 10px;
-    }
-
-    .spec-label {
-      width: 180px;
-      font-weight: 600;
     }
 
     .product-detail-price {
@@ -814,10 +802,10 @@
   <div class="container">
     <div class="contacts-top">
       <a href="tel:89274947569"><i class="fas fa-phone-alt"></i> 89274947569</a>
-      <span class="manager-name"><i class="fas fa-user"></i> Лариса С.В.</span>
+      <span class="manager-name"><i class="fas fa-user"></i> ИП Свищёва Л.В.</span>
     </div>
     <div class="geo-selector">
-      <i class="fas fa-map-marker-alt"></i> Елабуга <i class="fas fa-chevron-down"></i>
+      <i class="fas fa-map-marker-alt"></i> г. Елабуга, Пролетарская 22
     </div>
     <div class="user-links">
       <a href="#" onclick="openAdminPanel(); return false;">
@@ -832,7 +820,7 @@
   <div class="container">
     <div class="logo" onclick="showHome()">
       <h1>СПЕЦ<span>ОДЕЖДА</span></h1>
-      <div class="tagline">Спецодежда, СИЗ, обувь оптом</div>
+      <div class="tagline">Спецодежда для мед. работников, продавцов и рабочих, СИЗ и Обувь</div>
     </div>
     <div class="search-box">
       <input type="text" placeholder="Поиск по артикулу, ГОСТ, ткани" id="searchInput">
@@ -976,7 +964,7 @@
             
             <div class="form-group">
               <label>Описание</label>
-              <textarea id="adminProductDescription" rows="4"></textarea>
+              <textarea id="adminProductDescription" rows="6"></textarea>
             </div>
             
             <!-- ЗАГРУЗКА ИЗОБРАЖЕНИЯ -->
@@ -1002,12 +990,6 @@
               </div>
               
               <input type="hidden" id="adminProductImage" value="">
-            </div>
-            
-            <div class="form-group">
-              <label>Характеристики (JSON)</label>
-              <textarea id="adminProductSpecs" rows="4" placeholder='{"Ткань": "Смесовая", "Плотность": "245 г/кв.м"}'></textarea>
-              <small>Введите характеристики в формате JSON</small>
             </div>
             
             <div class="form-actions">
@@ -1060,19 +1042,16 @@
 
   // ========== ЗАГРУЗКА ТОВАРОВ ==========
   async function loadProducts() {
-    // Сначала пробуем загрузить из внешнего файла products.json
     try {
       const response = await fetch('products.json');
       if (response.ok) {
         products = await response.json();
         localStorage.setItem('specprofi_products', JSON.stringify(products));
       } else {
-        // Если файла нет, загружаем из localStorage
         const saved = localStorage.getItem('specprofi_products');
         products = saved ? JSON.parse(saved) : [];
       }
     } catch (e) {
-      // Если ошибка, загружаем из localStorage
       const saved = localStorage.getItem('specprofi_products');
       products = saved ? JSON.parse(saved) : [];
     }
@@ -1215,16 +1194,7 @@
             <h1 class="product-detail-title">${product.name}</h1>
             <div class="product-detail-sku">Артикул: ${product.sku || 'Не указан'}</div>
             
-            ${product.description ? `<div class="product-detail-description"><h3>Описание</h3><p>${product.description}</p></div>` : ''}
-            
-            ${product.specs ? `
-              <div class="product-detail-specs">
-                <h3>Характеристики</h3>
-                ${Object.entries(product.specs).map(([k, v]) => `
-                  <div class="spec-row"><span class="spec-label">${k}:</span><span>${v}</span></div>
-                `).join('')}
-              </div>
-            ` : ''}
+            ${product.description ? `<div class="product-detail-description">${product.description}</div>` : ''}
             
             <div class="product-detail-price">${product.price} ₽</div>
             
@@ -1436,8 +1406,6 @@
       document.getElementById('imagePreviewContainer').style.display = 'none';
     }
     
-    document.getElementById('adminProductSpecs').value = p.specs ? JSON.stringify(p.specs, null, 2) : '';
-    
     showAdminSection('add-product');
   }
 
@@ -1474,15 +1442,6 @@
       description: document.getElementById('adminProductDescription').value,
       image: imageData
     };
-    
-    const specsText = document.getElementById('adminProductSpecs').value.trim();
-    if (specsText) {
-      try { productData.specs = JSON.parse(specsText); }
-      catch (e) { 
-        showNotification('Ошибка в JSON характеристик', true); 
-        return; 
-      }
-    }
     
     if (editingProductId) {
       const idx = products.findIndex(p => p.id === editingProductId);
@@ -1521,7 +1480,6 @@
     document.getElementById('adminProductImageUrl').value = '';
     document.getElementById('adminProductImageFile').value = '';
     document.getElementById('adminProductImage').value = '';
-    document.getElementById('adminProductSpecs').value = '';
     document.getElementById('imagePreviewContainer').style.display = 'none';
     currentImageData = '';
     

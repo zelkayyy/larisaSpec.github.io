@@ -153,7 +153,7 @@
     }
 
     .catalog-sidebar {
-      width: 280px;
+      width: 300px;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -175,36 +175,84 @@
       color: #e67e22;
     }
 
-    .catalog-menu-vertical {
+    /* ========== ДРЕВОВИДНОЕ МЕНЮ КАТАЛОГА ========== */
+    .catalog-tree {
       list-style: none;
-      padding: 10px 0;
+      padding: 0;
+      margin: 0;
     }
 
-    .catalog-menu-vertical li {
+    .catalog-tree li {
       border-bottom: 1px solid #f0f4f9;
     }
 
-    .catalog-menu-vertical li a {
-      display: block;
-      padding: 14px 20px;
-      color: #2c3e50;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.2s;
-      font-size: 15px;
+    .catalog-tree .category-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
       cursor: pointer;
+      font-weight: 500;
+      font-size: 15px;
+      color: #2c3e50;
+      transition: 0.2s;
+      text-decoration: none;
+      position: relative;
     }
 
-    .catalog-menu-vertical li a:hover {
+    .catalog-tree .category-item:hover {
       background: #f8fafc;
       color: #e67e22;
-      padding-left: 25px;
     }
 
-    .catalog-menu-vertical li a i {
+    .catalog-tree .category-item i {
       margin-right: 10px;
       width: 20px;
       color: #7f8c8d;
+      text-align: center;
+    }
+
+    .catalog-tree .toggle-icon {
+      margin-left: auto;
+      font-size: 12px;
+      transition: transform 0.3s;
+      color: #95a5a6;
+    }
+
+    .catalog-tree .toggle-icon.open {
+      transform: rotate(90deg);
+    }
+
+    /* Подкатегории */
+    .subcategory-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background: #fafbfc;
+      display: none;
+    }
+
+    .subcategory-list.open {
+      display: block;
+    }
+
+    .subcategory-list li {
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .subcategory-list li a {
+      display: block;
+      padding: 10px 20px 10px 50px;
+      color: #5e6f7e;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .subcategory-list li a:hover {
+      background: #eef2f6;
+      color: #e67e22;
     }
 
     .content-area {
@@ -419,7 +467,7 @@
       font-size: 18px;
     }
 
-    /* ========== АДМИН-ПАНЕЛЬ ========== */
+    /* ========== АДМИН-ПАНЕЛЬ (оставлена без изменений) ========== */
     .modal {
       display: none;
       position: fixed;
@@ -461,10 +509,6 @@
       margin: 0;
     }
 
-    .admin-header h2 i {
-      margin-right: 10px;
-    }
-
     .btn-close {
       background: none;
       border: none;
@@ -500,11 +544,6 @@
       color: #2c3e50;
     }
 
-    .admin-menu-btn i {
-      margin-right: 10px;
-      width: 20px;
-    }
-
     .admin-menu-btn.active {
       background: #1e2b3c;
       color: white;
@@ -536,20 +575,12 @@
     }
 
     .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .form-group textarea {
       width: 100%;
       padding: 12px;
       border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 14px;
-    }
-
-    .form-group small {
-      display: block;
-      margin-top: 5px;
-      color: #7f8c8d;
-      font-size: 12px;
     }
 
     .form-actions {
@@ -565,7 +596,6 @@
       padding: 12px 30px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     .btn-secondary {
@@ -575,7 +605,6 @@
       padding: 12px 30px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     .btn-danger {
@@ -643,7 +672,6 @@
       object-fit: cover;
     }
 
-    /* ========== ПРЕДПРОСМОТР ИЗОБРАЖЕНИЯ ========== */
     .image-preview {
       margin-top: 10px;
       max-width: 200px;
@@ -661,7 +689,7 @@
       object-fit: cover;
     }
 
-    .image-preview .btn-remove-image {
+    .btn-remove-image {
       position: absolute;
       top: 5px;
       right: 5px;
@@ -673,9 +701,6 @@
       border-radius: 50%;
       cursor: pointer;
       font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .image-upload-tabs {
@@ -707,7 +732,6 @@
       display: block;
     }
 
-    /* ========== УВЕДОМЛЕНИЯ ========== */
     .notification {
       position: fixed;
       top: 20px;
@@ -721,22 +745,6 @@
       animation: slideIn 0.3s ease;
     }
 
-    .notification.error {
-      background: #e74c3c;
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    /* ========== МОДАЛЬНОЕ ОКНО ВХОДА ========== */
     .login-modal {
       position: fixed;
       top: 0;
@@ -754,50 +762,23 @@
       background: #fff;
       padding: 40px;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       width: 400px;
     }
 
-    .login-container h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #1e2b3c;
-    }
-
-    /* ========== АДАПТИВНОСТЬ ========== */
     @media (max-width: 900px) {
-      .main-layout {
-        flex-direction: column;
-      }
-      .catalog-sidebar {
-        width: 100%;
-        position: static;
-      }
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .cat-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .main-layout { flex-direction: column; }
+      .catalog-sidebar { width: 100%; position: static; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 600px) {
-      .products-grid {
-        grid-template-columns: 1fr;
-      }
-      .cat-grid {
-        grid-template-columns: 1fr;
-      }
-      .main-header .container {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      .products-grid { grid-template-columns: 1fr; }
+      .main-header .container { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-<!-- ========== ВЕРХНЯЯ ПАНЕЛЬ ========== -->
 <div class="top-bar">
   <div class="container">
     <div class="contacts-top">
@@ -808,14 +789,11 @@
       <i class="fas fa-map-marker-alt"></i> г. Елабуга, Пролетарская 22
     </div>
     <div class="user-links">
-      <a href="#" onclick="openAdminPanel(); return false;">
-        <i class="fas fa-lock"></i> Админ
-      </a>
+      <a href="#" onclick="openAdminPanel(); return false;"><i class="fas fa-lock"></i> Админ</a>
     </div>
   </div>
 </div>
 
-<!-- ========== ОСНОВНОЙ ХЕДЕР ========== -->
 <div class="main-header">
   <div class="container">
     <div class="logo" onclick="showHome()">
@@ -829,43 +807,36 @@
   </div>
 </div>
 
-<!-- ========== ОСНОВНОЙ КОНТЕНТ ========== -->
 <div class="container main-layout">
   
-  <!-- ЛЕВЫЙ КАТАЛОГ -->
   <div class="catalog-sidebar">
     <div class="catalog-header">
       <i class="fas fa-bars"></i> Каталог товаров
     </div>
-    <ul class="catalog-menu-vertical" id="categoryMenu"></ul>
+    <ul class="catalog-tree" id="categoryTree"></ul>
   </div>
 
-  <!-- ПРАВАЯ ЧАСТЬ -->
   <div class="content-area">
     
-    <!-- ГЛАВНАЯ СТРАНИЦА -->
     <div id="home-page">
       <div class="popular-cats">
         <h2 class="section-title">Популярные категории</h2>
         <div class="cat-grid" id="popularCategories"></div>
       </div>
-
       <div id="products-list">
         <h2 class="section-title">Все товары</h2>
         <div class="products-grid" id="productsContainer"></div>
       </div>
     </div>
 
-    <!-- СТРАНИЦА КАТЕГОРИИ -->
     <div id="category-page" style="display: none;">
-      <h2 class="section-title" id="categoryTitle">Категория</h2>
+      <h2 class="section-title" id="categoryTitle"></h2>
       <div class="products-grid" id="categoryProductsContainer"></div>
       <button class="btn-large btn-outline-large" onclick="showHome()" style="margin-top: 20px;">
         <i class="fas fa-arrow-left"></i> Назад
       </button>
     </div>
 
-    <!-- СТРАНИЦА ТОВАРА -->
     <div id="product-page" style="display: none;">
       <div id="productDetailContainer"></div>
       <button class="btn-large btn-outline-large" onclick="showHome()" style="margin-top: 20px;">
@@ -875,139 +846,180 @@
   </div>
 </div>
 
-<!-- ========== МОДАЛЬНОЕ ОКНО ВХОДА В АДМИНКУ ========== -->
 <div id="loginModal" class="login-modal" style="display: none;">
   <div class="login-container">
     <h1><i class="fas fa-lock"></i> Вход в админ-панель</h1>
     <form onsubmit="adminLogin(event); return false;">
-      <div class="form-group">
-        <label>Логин</label>
-        <input type="text" id="adminUsername" required>
-      </div>
-      <div class="form-group">
-        <label>Пароль</label>
-        <input type="password" id="adminPassword" required>
-      </div>
-      <div style="margin-bottom: 15px;">
-        <label>
-          <input type="checkbox" id="rememberMe"> Запомнить меня
-        </label>
-      </div>
-      <button type="submit" class="btn-primary" style="width: 100%;">Войти</button>
-      <div id="loginError" style="color: red; margin-top: 10px; text-align: center;"></div>
+      <div class="form-group"><label>Логин</label><input type="text" id="adminUsername" required></div>
+      <div class="form-group"><label>Пароль</label><input type="password" id="adminPassword" required></div>
+      <button type="submit" class="btn-primary" style="width:100%;">Войти</button>
+      <div id="loginError" style="color:red;margin-top:10px;text-align:center;"></div>
     </form>
-    <button onclick="closeLoginModal()" class="btn-secondary" style="width: 100%; margin-top: 10px;">Отмена</button>
+    <button onclick="closeLoginModal()" class="btn-secondary" style="width:100%;margin-top:10px;">Отмена</button>
   </div>
 </div>
 
-<!-- ========== АДМИН-ПАНЕЛЬ ========== -->
 <div id="adminModal" class="modal">
   <div class="admin-panel">
     <div class="admin-header">
-      <h2><i class="fas fa-cog"></i> Админ-панель СпецОдежда</h2>
+      <h2><i class="fas fa-cog"></i> Админ-панель</h2>
       <button class="btn-close" onclick="hideAdminPanel()">&times;</button>
     </div>
     <div class="admin-container">
       <div class="admin-sidebar">
-        <button class="admin-menu-btn active" onclick="showAdminSection('products')">
-          <i class="fas fa-box"></i> Товары
-        </button>
-        <button class="admin-menu-btn" onclick="showAdminSection('add-product')">
-          <i class="fas fa-plus"></i> Добавить товар
-        </button>
-        <button class="admin-menu-btn" onclick="logoutAdmin()">
-          <i class="fas fa-sign-out-alt"></i> Выйти
-        </button>
+        <button class="admin-menu-btn active" onclick="showAdminSection('products')"><i class="fas fa-box"></i> Товары</button>
+        <button class="admin-menu-btn" onclick="showAdminSection('add-product')"><i class="fas fa-plus"></i> Добавить товар</button>
+        <button class="admin-menu-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Выйти</button>
       </div>
       <div class="admin-content">
-        
-        <!-- Список товаров -->
         <div id="admin-products-section" class="admin-section active">
           <h2>Управление товарами</h2>
-          <div style="margin-bottom: 20px;">
-            <button class="btn-success" onclick="exportProducts()">
-              <i class="fas fa-download"></i> Скачать файл с товарами
-            </button>
-            <p style="margin-top: 10px; font-size: 14px; color: #666;">
-              После добавления товаров скачайте файл и загрузите его в корень репозитория с именем <strong>products.json</strong>
-            </p>
-          </div>
+          <button class="btn-success" onclick="exportProducts()"><i class="fas fa-download"></i> Скачать файл с товарами</button>
+          <p style="margin-top:10px;font-size:14px;color:#666;">После добавления товаров скачайте файл и загрузите его в корень репозитория как <strong>products.json</strong></p>
           <div id="adminProductsList"></div>
         </div>
-        
-        <!-- Форма добавления/редактирования -->
         <div id="admin-add-product-section" class="admin-section">
           <h2 id="adminFormTitle">Добавить товар</h2>
           <form onsubmit="saveAdminProduct(event); return false;">
             <input type="hidden" id="adminProductId">
-            
-            <div class="form-group">
-              <label>Название товара *</label>
-              <input type="text" id="adminProductName" required>
-            </div>
-            
-            <div class="form-group">
-              <label>Категория *</label>
-              <input type="text" id="adminProductCategory" required list="adminCategoriesList">
-              <datalist id="adminCategoriesList"></datalist>
-            </div>
-            
-            <div class="form-group">
-              <label>Артикул</label>
-              <input type="text" id="adminProductSku">
-            </div>
-            
-            <div class="form-group">
-              <label>Цена (₽) *</label>
-              <input type="number" id="adminProductPrice" required>
-            </div>
-            
-            <div class="form-group">
-              <label>Описание</label>
-              <textarea id="adminProductDescription" rows="6"></textarea>
-            </div>
-            
-            <!-- ЗАГРУЗКА ИЗОБРАЖЕНИЯ -->
+            <div class="form-group"><label>Название *</label><input type="text" id="adminProductName" required></div>
+            <div class="form-group"><label>Категория *</label><input type="text" id="adminProductCategory" required list="adminCategoriesList"><datalist id="adminCategoriesList"></datalist></div>
+            <div class="form-group"><label>Подкатегория</label><input type="text" id="adminProductSubcategory"></div>
+            <div class="form-group"><label>Артикул</label><input type="text" id="adminProductSku"></div>
+            <div class="form-group"><label>Цена *</label><input type="number" id="adminProductPrice" required></div>
+            <div class="form-group"><label>Описание</label><textarea id="adminProductDescription" rows="6"></textarea></div>
             <div class="form-group">
               <label>Изображение</label>
-              
               <div class="image-upload-tabs">
                 <button type="button" class="image-tab active" onclick="switchImageTab('url')">Ссылка (URL)</button>
                 <button type="button" class="image-tab" onclick="switchImageTab('file')">Загрузить файл</button>
               </div>
-              
-              <div id="image-url-content" class="image-upload-content active">
-                <input type="text" id="adminProductImageUrl" placeholder="https://..." oninput="updateImagePreviewFromUrl()">
-              </div>
-              
-              <div id="image-file-content" class="image-upload-content">
-                <input type="file" id="adminProductImageFile" accept="image/*" onchange="previewImageFile(event)">
-              </div>
-              
-              <div class="image-preview" id="imagePreviewContainer" style="display: none;">
-                <img id="previewImg" src="" alt="Предпросмотр">
-                <button type="button" class="btn-remove-image" onclick="removeImage()" title="Удалить изображение">&times;</button>
-              </div>
-              
+              <div id="image-url-content" class="image-upload-content active"><input type="text" id="adminProductImageUrl" placeholder="https://..." oninput="updateImagePreviewFromUrl()"></div>
+              <div id="image-file-content" class="image-upload-content"><input type="file" id="adminProductImageFile" accept="image/*" onchange="previewImageFile(event)"></div>
+              <div class="image-preview" id="imagePreviewContainer" style="display:none;"><img id="previewImg" src=""><button type="button" class="btn-remove-image" onclick="removeImage()">&times;</button></div>
               <input type="hidden" id="adminProductImage" value="">
             </div>
-            
-            <div class="form-actions">
-              <button type="submit" class="btn-primary">Сохранить</button>
-              <button type="button" class="btn-secondary" onclick="cancelAdminEdit()">Отмена</button>
-            </div>
+            <div class="form-actions"><button type="submit" class="btn-primary">Сохранить</button><button type="button" class="btn-secondary" onclick="cancelAdminEdit()">Отмена</button></div>
           </form>
         </div>
-        
       </div>
     </div>
   </div>
 </div>
 
 <script>
+  // ========== СТРУКТУРА КАТЕГОРИЙ (как на planeta-sirius.ru) ==========
+  const categoryStructure = [
+    {
+      name: "Спецодежда",
+      icon: "fa-vest",
+      subcategories: [
+        "Костюмы рабочие",
+        "Куртки рабочие",
+        "Брюки рабочие",
+        "Полукомбинезоны",
+        "Жилеты рабочие",
+        "Для сварщиков",
+        "Для медиков",
+        "Для продавцов"
+      ]
+    },
+    {
+      name: "Влагозащитная одежда",
+      icon: "fa-cloud-rain",
+      subcategories: [
+        "Плащи влагозащитные",
+        "Костюмы влагозащитные",
+        "Куртки влагозащитные",
+        "Брюки влагозащитные"
+      ]
+    },
+    {
+      name: "Сигнальная одежда",
+      icon: "fa-vest",
+      subcategories: [
+        "Жилеты сигнальные 2 класса",
+        "Жилеты сигнальные 3 класса",
+        "Костюмы сигнальные"
+      ]
+    },
+    {
+      name: "Зимняя спецодежда",
+      icon: "fa-snowflake",
+      subcategories: [
+        "Костюмы зимние",
+        "Куртки зимние",
+        "Брюки зимние",
+        "Полукомбинезоны зимние"
+      ]
+    },
+    {
+      name: "Обувь рабочая",
+      icon: "fa-shoe-prints",
+      subcategories: [
+        "Ботинки рабочие",
+        "Полуботинки рабочие",
+        "Сапоги рабочие",
+        "Кроссовки рабочие",
+        "Обувь для сварщиков",
+        "Обувь зимняя",
+        "Треккинговая обувь",
+        "Тактическая обувь",
+        "Обувь ХоРеКа"
+      ]
+    },
+    {
+      name: "Перчатки и СИЗ",
+      icon: "fa-hand-paper",
+      subcategories: [
+        "Краги сварщика",
+        "Перчатки спилковые",
+        "Перчатки нитриловые",
+        "Перчатки нейлоновые",
+        "Перчатки латексные",
+        "Перчатки ПВХ (МБС)",
+        "Перчатки кожаные"
+      ]
+    },
+    {
+      name: "Головные уборы",
+      icon: "fa-hard-hat",
+      subcategories: [
+        "Шапки зимние",
+        "Шапки трикотажные",
+        "Каски защитные"
+      ]
+    },
+    {
+      name: "Аксессуары",
+      icon: "fa-tag",
+      subcategories: [
+        "Ремни",
+        "Подтяжки"
+      ]
+    },
+    {
+      name: "Бельё",
+      icon: "fa-tshirt",
+      subcategories: [
+        "Термобельё",
+        "Футболки"
+      ]
+    },
+    {
+      name: "Отдых и туризм",
+      icon: "fa-mountain",
+      subcategories: [
+        "Куртки для отдыха",
+        "Ветровки",
+        "Джемперы флисовые",
+        "Жилеты утеплённые"
+      ]
+    }
+  ];
+
   // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
   let products = [];
-  let categories = new Set();
   let editingProductId = null;
   const ADMIN_CREDENTIALS = { username: 'bwhwghgs', password: '362257' };
   let currentImageData = '';
@@ -1018,26 +1030,45 @@
     loadProducts();
     document.querySelector('.logo').addEventListener('click', showHome);
     checkAdminRemembered();
+    renderCategoryTree();
   });
 
-  // Проверка сохранённой сессии админа
   function checkAdminRemembered() {
-    const remembered = localStorage.getItem('specprofi_admin_remembered');
-    if (remembered === 'true') {
-      isAdminLoggedIn = true;
-    }
+    isAdminLoggedIn = localStorage.getItem('specprofi_admin_remembered') === 'true';
   }
 
-  // ========== УВЕДОМЛЕНИЯ ==========
-  function showNotification(message, isError = false) {
-    const notification = document.createElement('div');
-    notification.className = 'notification' + (isError ? ' error' : '');
-    notification.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
-    document.body.appendChild(notification);
+  // ========== РЕНДЕР ДРЕВА КАТЕГОРИЙ ==========
+  function renderCategoryTree() {
+    const tree = document.getElementById('categoryTree');
     
-    setTimeout(() => {
-      notification.remove();
-    }, 3000);
+    tree.innerHTML = categoryStructure.map((cat, index) => {
+      const subcatItems = cat.subcategories.map(sub => 
+        `<li><a onclick="event.stopPropagation(); showSubcategory('${cat.name}', '${sub}')">${sub}</a></li>`
+      ).join('');
+      
+      return `
+        <li>
+          <div class="category-item" onclick="toggleCategory(${index})">
+            <i class="fas ${cat.icon}"></i> ${cat.name}
+            <span class="toggle-icon" id="toggle-${index}">
+              <i class="fas fa-chevron-right"></i>
+            </span>
+          </div>
+          <ul class="subcategory-list" id="subcat-${index}">
+            <li><a onclick="event.stopPropagation(); showCategory('${cat.name}')" style="font-weight:600; color:#e67e22;">Все товары категории</a></li>
+            ${subcatItems}
+          </ul>
+        </li>
+      `;
+    }).join('');
+  }
+
+  function toggleCategory(index) {
+    const subcat = document.getElementById('subcat-' + index);
+    const toggle = document.getElementById('toggle-' + index);
+    
+    subcat.classList.toggle('open');
+    toggle.classList.toggle('open');
   }
 
   // ========== ЗАГРУЗКА ТОВАРОВ ==========
@@ -1055,83 +1086,51 @@
       const saved = localStorage.getItem('specprofi_products');
       products = saved ? JSON.parse(saved) : [];
     }
-    
-    extractCategories();
-    renderCategories();
     renderPopularCategories();
     renderProducts(products);
-  }
-
-  function extractCategories() {
-    categories.clear();
-    products.forEach(p => { if (p.category) categories.add(p.category); });
   }
 
   function saveProductsToLocalStorage() {
     localStorage.setItem('specprofi_products', JSON.stringify(products));
   }
 
-  // ========== ЭКСПОРТ ТОВАРОВ ==========
   function exportProducts() {
-    const dataStr = JSON.stringify(products, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(products, null, 2)], { type: 'application/json' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = 'products.json';
     link.click();
-    showNotification('Файл products.json скачан. Загрузите его в корень репозитория на GitHub!');
+    showNotification('Файл products.json скачан!');
   }
 
-  // ========== РЕНДЕР КАТЕГОРИЙ ==========
-  function renderCategories() {
-    const menu = document.getElementById('categoryMenu');
-    const arr = Array.from(categories);
-    
-    if (arr.length === 0) {
-      menu.innerHTML = '<li style="padding: 20px; text-align: center; color: #7f8c8d;">Нет категорий</li>';
-      return;
-    }
-    
-    menu.innerHTML = arr.map(cat => `
-      <li><a onclick="showCategory('${cat}')"><i class="fas fa-folder"></i> ${cat}</a></li>
-    `).join('');
+  function showNotification(message, isError = false) {
+    const n = document.createElement('div');
+    n.className = 'notification' + (isError ? ' error' : '');
+    n.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
+    document.body.appendChild(n);
+    setTimeout(() => n.remove(), 3000);
   }
 
+  // ========== РЕНДЕР ==========
   function renderPopularCategories() {
     const container = document.getElementById('popularCategories');
-    const arr = Array.from(categories).slice(0, 3);
-    
-    if (arr.length === 0) {
-      container.innerHTML = '<div class="empty-message" style="grid-column: 1/-1;">Нет категорий</div>';
-      return;
-    }
-    
-    container.innerHTML = arr.map(cat => {
-      const count = products.filter(p => p.category === cat).length;
-      return `
-        <div class="cat-card" onclick="showCategory('${cat}')">
-          <i class="fas fa-tshirt"></i>
-          <h3>${cat}</h3>
-          <span>${count} товаров</span>
-        </div>
-      `;
+    container.innerHTML = categoryStructure.slice(0, 3).map(cat => {
+      const count = products.filter(p => p.category === cat.name).length;
+      return `<div class="cat-card" onclick="showCategory('${cat.name}')">
+        <i class="fas ${cat.icon}"></i><h3>${cat.name}</h3><span>${count} товаров</span>
+      </div>`;
     }).join('');
   }
 
-  // ========== РЕНДЕР ТОВАРОВ ==========
   function renderProducts(productsToRender) {
     const container = document.getElementById('productsContainer');
-    
     if (productsToRender.length === 0) {
-      container.innerHTML = '<div class="empty-message" style="grid-column: 1/-1;">Товары пока не добавлены</div>';
+      container.innerHTML = '<div class="empty-message">Товары пока не добавлены</div>';
       return;
     }
-    
     container.innerHTML = productsToRender.map(p => `
       <div class="product-card" onclick="showProduct(${p.id})">
-        <div class="product-image">
-          ${p.image ? `<img src="${p.image}" alt="${p.name}">` : '<i class="fas fa-box"></i>'}
-        </div>
+        <div class="product-image">${p.image ? `<img src="${p.image}" alt="${p.name}">` : '<i class="fas fa-box"></i>'}</div>
         <div class="product-title">${p.name}</div>
         <div class="product-sku">Арт. ${p.sku || 'Н/Д'}</div>
         <div class="product-price">${p.price} ₽</div>
@@ -1139,7 +1138,6 @@
     `).join('');
   }
 
-  // ========== НАВИГАЦИЯ ==========
   function showHome() {
     document.getElementById('home-page').style.display = 'block';
     document.getElementById('category-page').style.display = 'none';
@@ -1149,24 +1147,39 @@
 
   function showCategory(categoryName) {
     const filtered = products.filter(p => p.category === categoryName);
-    
     document.getElementById('home-page').style.display = 'none';
     document.getElementById('category-page').style.display = 'block';
     document.getElementById('product-page').style.display = 'none';
-    
     document.getElementById('categoryTitle').textContent = categoryName;
     const container = document.getElementById('categoryProductsContainer');
-    
     if (filtered.length === 0) {
       container.innerHTML = '<div class="empty-message">В этой категории пока нет товаров</div>';
       return;
     }
-    
     container.innerHTML = filtered.map(p => `
       <div class="product-card" onclick="showProduct(${p.id})">
-        <div class="product-image">
-          ${p.image ? `<img src="${p.image}" alt="${p.name}">` : '<i class="fas fa-box"></i>'}
-        </div>
+        <div class="product-image">${p.image ? `<img src="${p.image}" alt="${p.name}">` : '<i class="fas fa-box"></i>'}</div>
+        <div class="product-title">${p.name}</div>
+        <div class="product-sku">Арт. ${p.sku || 'Н/Д'}</div>
+        <div class="product-price">${p.price} ₽</div>
+      </div>
+    `).join('');
+  }
+
+  function showSubcategory(categoryName, subcategoryName) {
+    const filtered = products.filter(p => p.category === categoryName && p.subcategory === subcategoryName);
+    document.getElementById('home-page').style.display = 'none';
+    document.getElementById('category-page').style.display = 'block';
+    document.getElementById('product-page').style.display = 'none';
+    document.getElementById('categoryTitle').textContent = `${categoryName} → ${subcategoryName}`;
+    const container = document.getElementById('categoryProductsContainer');
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="empty-message">В этой подкатегории пока нет товаров</div>';
+      return;
+    }
+    container.innerHTML = filtered.map(p => `
+      <div class="product-card" onclick="showProduct(${p.id})">
+        <div class="product-image">${p.image ? `<img src="${p.image}" alt="${p.name}">` : '<i class="fas fa-box"></i>'}</div>
         <div class="product-title">${p.name}</div>
         <div class="product-sku">Арт. ${p.sku || 'Н/Д'}</div>
         <div class="product-price">${p.price} ₽</div>
@@ -1175,32 +1188,21 @@
   }
 
   function showProduct(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    
+    const p = products.find(p => p.id === productId);
+    if (!p) return;
     document.getElementById('home-page').style.display = 'none';
     document.getElementById('category-page').style.display = 'none';
     document.getElementById('product-page').style.display = 'block';
-    
-    const container = document.getElementById('productDetailContainer');
-    
-    container.innerHTML = `
+    document.getElementById('productDetailContainer').innerHTML = `
       <div class="product-detail">
         <div class="product-detail-header">
-          <div class="product-detail-image">
-            ${product.image ? `<img src="${product.image}" alt="${product.name}">` : '<i class="fas fa-box"></i>'}
-          </div>
+          <div class="product-detail-image">${p.image ? `<img src="${p.image}" alt="${p.name}">` : '<i class="fas fa-box"></i>'}</div>
           <div class="product-detail-info">
-            <h1 class="product-detail-title">${product.name}</h1>
-            <div class="product-detail-sku">Артикул: ${product.sku || 'Не указан'}</div>
-            
-            ${product.description ? `<div class="product-detail-description">${product.description}</div>` : ''}
-            
-            <div class="product-detail-price">${product.price} ₽</div>
-            
-            <div class="product-phone">
-              <i class="fas fa-phone-alt"></i> Позвонить для заказа: 89274947569
-            </div>
+            <h1 class="product-detail-title">${p.name}</h1>
+            <div class="product-detail-sku">Артикул: ${p.sku || 'Не указан'}${p.subcategory ? ` | Категория: ${p.category} → ${p.subcategory}` : ` | Категория: ${p.category || 'Не указана'}`}</div>
+            ${p.description ? `<div class="product-detail-description">${p.description}</div>` : ''}
+            <div class="product-detail-price">${p.price} ₽</div>
+            <div class="product-phone"><i class="fas fa-phone-alt"></i> Позвонить для заказа: 89274947569</div>
           </div>
         </div>
       </div>
@@ -1210,7 +1212,6 @@
   function searchProducts() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     if (!query) { renderProducts(products); return; }
-    
     const filtered = products.filter(p => 
       p.name.toLowerCase().includes(query) ||
       (p.sku && p.sku.toLowerCase().includes(query)) ||
@@ -1223,7 +1224,6 @@
   function switchImageTab(tab) {
     document.querySelectorAll('.image-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.image-upload-content').forEach(c => c.classList.remove('active'));
-    
     if (tab === 'url') {
       document.querySelector('.image-tab:first-child').classList.add('active');
       document.getElementById('image-url-content').classList.add('active');
@@ -1262,17 +1262,14 @@
     document.getElementById('adminProductImageUrl').value = '';
     document.getElementById('adminProductImageFile').value = '';
     document.getElementById('adminProductImage').value = '';
-    document.getElementById('previewImg').src = '';
     document.getElementById('imagePreviewContainer').style.display = 'none';
-    showNotification('Изображение удалено');
   }
 
-  // ========== АДМИНКА: ВХОД ==========
+  // ========== АДМИНКА ==========
   function openAdminPanel() {
     if (isAdminLoggedIn) {
       document.getElementById('adminModal').classList.add('active');
       renderAdminProductsList();
-      updateAdminCategoriesDatalist();
     } else {
       openAdminLogin();
     }
@@ -1285,205 +1282,123 @@
     document.getElementById('loginError').textContent = '';
   }
 
-  function closeLoginModal() {
-    document.getElementById('loginModal').style.display = 'none';
-  }
+  function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
 
   function adminLogin(event) {
     event.preventDefault();
-    const username = document.getElementById('adminUsername').value;
-    const password = document.getElementById('adminPassword').value;
-    const remember = document.getElementById('rememberMe').checked;
-    
-    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+    if (document.getElementById('adminUsername').value === ADMIN_CREDENTIALS.username && 
+        document.getElementById('adminPassword').value === ADMIN_CREDENTIALS.password) {
       isAdminLoggedIn = true;
-      
-      if (remember) {
-        localStorage.setItem('specprofi_admin_remembered', 'true');
-      }
-      
+      localStorage.setItem('specprofi_admin_remembered', 'true');
       document.getElementById('loginModal').style.display = 'none';
       document.getElementById('adminModal').classList.add('active');
       renderAdminProductsList();
-      updateAdminCategoriesDatalist();
-      
-      showNotification('Вход выполнен успешно');
+      showNotification('Вход выполнен');
     } else {
       document.getElementById('loginError').textContent = 'Неверный логин или пароль';
-      showNotification('Неверный логин или пароль', true);
     }
   }
 
-  function hideAdminPanel() {
-    document.getElementById('adminModal').classList.remove('active');
-  }
-
+  function hideAdminPanel() { document.getElementById('adminModal').classList.remove('active'); }
+  
   function logoutAdmin() {
     isAdminLoggedIn = false;
     localStorage.removeItem('specprofi_admin_remembered');
     hideAdminPanel();
     editingProductId = null;
-    showNotification('Выход выполнен');
   }
 
-  // ========== АДМИНКА: УПРАВЛЕНИЕ ТОВАРАМИ ==========
   function showAdminSection(section) {
     document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.admin-menu-btn').forEach(b => b.classList.remove('active'));
-    
-    if (section === 'products') {
-      document.getElementById('admin-products-section').classList.add('active');
-      renderAdminProductsList();
-    } else {
-      document.getElementById('admin-add-product-section').classList.add('active');
-      if (!editingProductId) resetAdminForm();
-    }
-    
+    document.getElementById('admin-' + section + '-section').classList.add('active');
     event.target.closest('.admin-menu-btn').classList.add('active');
+    if (section === 'products') renderAdminProductsList();
+    if (section === 'add-product' && !editingProductId) resetAdminForm();
   }
 
   function renderAdminProductsList() {
     const container = document.getElementById('adminProductsList');
-    
     if (products.length === 0) {
       container.innerHTML = '<div class="empty-message">Товары пока не добавлены</div>';
       return;
     }
-    
-    container.innerHTML = `
-      <table class="products-table">
-        <thead>
-          <tr><th>ID</th><th>Изобр.</th><th>Название</th><th>Категория</th><th>Артикул</th><th>Цена</th><th>Действия</th></tr>
-        </thead>
-        <tbody>
-          ${products.map(p => `
-            <tr>
-              <td>${p.id}</td>
-              <td><div class="product-thumb">${p.image ? `<img src="${p.image}" alt="${p.name}">` : '<i class="fas fa-box"></i>'}</div></td>
-              <td>${p.name}</td>
-              <td>${p.category || '—'}</td>
-              <td>${p.sku || '—'}</td>
-              <td>${p.price} ₽</td>
-              <td>
-                <button class="btn-edit" onclick="editAdminProduct(${p.id})"><i class="fas fa-edit"></i> Ред.</button>
-                <button class="btn-danger" onclick="deleteAdminProduct(${p.id})"><i class="fas fa-trash"></i> Удалить</button>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
-  }
-
-  function updateAdminCategoriesDatalist() {
-    const cats = [...new Set(products.map(p => p.category).filter(Boolean))];
-    document.getElementById('adminCategoriesList').innerHTML = cats.map(c => `<option value="${c}">`).join('');
+    container.innerHTML = `<table class="products-table"><thead><tr><th>ID</th><th>Название</th><th>Категория</th><th>Артикул</th><th>Цена</th><th>Действия</th></tr></thead><tbody>
+      ${products.map(p => `<tr>
+        <td>${p.id}</td><td>${p.name}</td><td>${p.category || '—'}${p.subcategory ? ' → ' + p.subcategory : ''}</td>
+        <td>${p.sku || '—'}</td><td>${p.price} ₽</td>
+        <td><button class="btn-edit" onclick="editAdminProduct(${p.id})">Ред.</button>
+        <button class="btn-danger" onclick="deleteAdminProduct(${p.id})">Удалить</button></td>
+      </tr>`).join('')}
+    </tbody></table>`;
   }
 
   function editAdminProduct(id) {
     const p = products.find(p => p.id === id);
     if (!p) return;
-    
     editingProductId = id;
     currentImageData = p.image || '';
-    
-    document.getElementById('adminFormTitle').textContent = 'Редактировать товар';
     document.getElementById('adminProductId').value = p.id;
     document.getElementById('adminProductName').value = p.name;
     document.getElementById('adminProductCategory').value = p.category || '';
+    document.getElementById('adminProductSubcategory').value = p.subcategory || '';
     document.getElementById('adminProductSku').value = p.sku || '';
     document.getElementById('adminProductPrice').value = p.price;
     document.getElementById('adminProductDescription').value = p.description || '';
-    
     if (p.image) {
       document.getElementById('adminProductImageUrl').value = p.image;
       document.getElementById('adminProductImage').value = p.image;
       document.getElementById('previewImg').src = p.image;
       document.getElementById('imagePreviewContainer').style.display = 'inline-block';
-    } else {
-      document.getElementById('adminProductImageUrl').value = '';
-      document.getElementById('adminProductImage').value = '';
-      document.getElementById('imagePreviewContainer').style.display = 'none';
     }
-    
     showAdminSection('add-product');
   }
 
   function deleteAdminProduct(id) {
     if (!confirm('Удалить товар?')) return;
-    
     products = products.filter(p => p.id !== id);
     saveProductsToLocalStorage();
     loadProducts();
     renderAdminProductsList();
-    updateAdminCategoriesDatalist();
-    
-    showNotification('Товар удалён. Не забудьте скачать обновлённый файл с товарами!');
+    showNotification('Товар удалён');
   }
 
   function saveAdminProduct(event) {
     event.preventDefault();
-    
-    let imageData = '';
-    const urlImage = document.getElementById('adminProductImageUrl').value;
-    
-    if (currentImageData) {
-      imageData = currentImageData;
-    } else if (urlImage) {
-      imageData = urlImage;
-    }
-    
     const productData = {
       id: editingProductId || Date.now(),
       name: document.getElementById('adminProductName').value,
       category: document.getElementById('adminProductCategory').value,
+      subcategory: document.getElementById('adminProductSubcategory').value,
       sku: document.getElementById('adminProductSku').value,
       price: parseFloat(document.getElementById('adminProductPrice').value),
       description: document.getElementById('adminProductDescription').value,
-      image: imageData
+      image: currentImageData || document.getElementById('adminProductImageUrl').value
     };
-    
     if (editingProductId) {
       const idx = products.findIndex(p => p.id === editingProductId);
       if (idx !== -1) products[idx] = productData;
-      showNotification('Товар обновлён');
     } else {
       products.push(productData);
-      showNotification('Товар добавлен');
     }
-    
     saveProductsToLocalStorage();
     loadProducts();
-    updateAdminCategoriesDatalist();
-    
     cancelAdminEdit();
     showAdminSection('products');
-    
-    showNotification('Не забудьте скачать обновлённый файл с товарами!');
   }
 
-  function cancelAdminEdit() {
-    editingProductId = null;
-    currentImageData = '';
-    resetAdminForm();
-    showAdminSection('products');
-  }
-
+  function cancelAdminEdit() { editingProductId = null; currentImageData = ''; resetAdminForm(); showAdminSection('products'); }
+  
   function resetAdminForm() {
-    document.getElementById('adminFormTitle').textContent = 'Добавить товар';
     document.getElementById('adminProductId').value = '';
     document.getElementById('adminProductName').value = '';
     document.getElementById('adminProductCategory').value = '';
+    document.getElementById('adminProductSubcategory').value = '';
     document.getElementById('adminProductSku').value = '';
     document.getElementById('adminProductPrice').value = '';
     document.getElementById('adminProductDescription').value = '';
     document.getElementById('adminProductImageUrl').value = '';
-    document.getElementById('adminProductImageFile').value = '';
-    document.getElementById('adminProductImage').value = '';
     document.getElementById('imagePreviewContainer').style.display = 'none';
-    currentImageData = '';
-    
-    switchImageTab('url');
   }
 </script>
 

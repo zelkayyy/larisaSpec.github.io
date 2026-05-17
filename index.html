@@ -10,7 +10,7 @@
     body { background: #f5f7fa; }
     .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
-    /* ХЕДЕР — всегда виден при скролле вверх */
+    /* ХЕДЕР — всегда виден */
     .top-bar { background: #1e2b3c; color: #ccd9e6; padding: 8px 0; font-size: 14px; position: sticky; top: 0; z-index: 100; }
     .top-bar .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
     .contacts-top { display: flex; align-items: center; gap: 25px; }
@@ -50,8 +50,9 @@
     .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
     .product-card { background: #fff; border-radius: 12px; padding: 15px; border: 1px solid #eef2f6; cursor: pointer; transition: 0.2s; }
     .product-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-color: #e67e22; }
-    .product-image { width: 100%; height: 200px; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 40px; color: #555; overflow: hidden; }
-    .product-image img { width: 100%; height: 100%; object-fit: cover; }
+    /* ИСПРАВЛЕНО: фон #f0f4f9 + contain — фото видны полностью, без обрезки */
+    .product-image { width: 100%; height: 200px; background: #f0f4f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 40px; color: #b0b8c0; overflow: hidden; }
+    .product-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .product-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
     .product-sku { color: #7f8c8d; font-size: 12px; margin-bottom: 8px; }
     .product-price { font-size: 20px; font-weight: 700; color: #e67e22; }
@@ -65,8 +66,9 @@
     /* СТРАНИЦА ТОВАРА */
     .product-detail { background: #fff; border-radius: 14px; padding: 25px; }
     .product-detail-header { display: flex; gap: 25px; flex-wrap: wrap; }
-    .product-detail-image { width: 380px; height: 380px; background: #1a1a1a; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 70px; overflow: hidden; }
-    .product-detail-image img { width: 100%; height: 100%; object-fit: cover; }
+    /* ИСПРАВЛЕНО: contain — фото без обрезки */
+    .product-detail-image { width: 380px; height: 380px; background: #f0f4f9; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 70px; overflow: hidden; }
+    .product-detail-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .product-detail-info { flex: 1; }
     .product-detail-title { font-size: 24px; margin-bottom: 8px; }
     .product-detail-sku { color: #7f8c8d; margin-bottom: 15px; }
@@ -109,10 +111,10 @@
     .products-table { width: 100%; background: #fff; border-radius: 10px; overflow: hidden; }
     .products-table th { background: #1e2b3c; color: white; padding: 10px; text-align: left; font-size: 13px; }
     .products-table td { padding: 10px; border-bottom: 1px solid #eef2f6; font-size: 13px; }
-    .product-thumb { width: 50px; height: 50px; background: #1a1a1a; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .product-thumb { width: 50px; height: 50px; background: #f0f4f9; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .product-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .image-preview { margin-top: 8px; max-width: 180px; max-height: 180px; overflow: hidden; border-radius: 8px; border: 1px solid #ddd; position: relative; display: inline-block; }
-    .image-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .image-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .btn-remove-image { position: absolute; top: 5px; right: 5px; background: #e74c3c; color: white; border: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 12px; }
     .image-upload-tabs { display: flex; gap: 8px; margin-bottom: 10px; border-bottom: 1px solid #ddd; }
     .image-tab { padding: 8px 15px; background: none; border: none; cursor: pointer; font-size: 13px; color: #7f8c8d; }
@@ -148,7 +150,8 @@
 
 <div class="main-header">
   <div class="container">
-    <div class="logo" onclick="showHome()"><h1>СПЕЦ<span>ОДЕЖДА</span></h1><div class="tagline">Спецодежда, СИЗ и Обувь</div></div>
+    <!-- ИСПРАВЛЕНО: всегда скролл вверх -->
+    <div class="logo" onclick="scrollToTop()"><h1>СПЕЦ<span>ОДЕЖДА</span></h1><div class="tagline">Спецодежда, СИЗ и Обувь</div></div>
     <div class="search-box"><input type="text" placeholder="Поиск по названию или артикулу" id="searchInput"><button onclick="searchProducts()"><i class="fas fa-search"></i></button></div>
   </div>
 </div>
@@ -176,10 +179,8 @@
   </div>
 </div>
 
-<!-- Кнопка наверх -->
 <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
 
-<!-- Админка -->
 <div id="loginModal" class="login-modal" style="display:none;"><div class="login-container"><h1><i class="fas fa-lock"></i> Вход в админ-панель</h1><form onsubmit="adminLogin(event);return false;"><div class="form-group"><label>Логин</label><input type="text" id="adminUsername" required></div><div class="form-group"><label>Пароль</label><input type="password" id="adminPassword" required></div><button type="submit" class="btn-primary" style="width:100%;">Войти</button><div id="loginError" style="color:red;margin-top:10px;text-align:center;"></div></form><button onclick="closeLoginModal()" class="btn-secondary" style="width:100%;margin-top:10px;">Отмена</button></div></div>
 
 <div id="adminModal" class="modal"><div class="admin-panel"><div class="admin-header"><h2><i class="fas fa-cog"></i> Админ-панель</h2><button class="btn-close" onclick="hideAdminPanel()">&times;</button></div><div class="admin-container"><div class="admin-sidebar"><button class="admin-menu-btn active" onclick="showAdminSection('products')"><i class="fas fa-box"></i> Товары</button><button class="admin-menu-btn" onclick="showAdminSection('add-product')"><i class="fas fa-plus"></i> Добавить</button><button class="admin-menu-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Выйти</button></div><div class="admin-content"><div id="admin-products-section" class="admin-section active"><h2>Управление товарами</h2><div class="admin-search-box"><input type="text" id="adminSearchInput" placeholder="Поиск по названию, артикулу или категории..." oninput="filterAdminProducts()"><button onclick="exportProducts()"><i class="fas fa-download"></i> Скачать</button></div><div id="adminProductsList"></div></div><div id="admin-add-product-section" class="admin-section"><h2 id="adminFormTitle">Добавить товар</h2><form onsubmit="saveAdminProduct(event);return false;"><input type="hidden" id="adminProductId"><div class="form-group"><label>Название *</label><input type="text" id="adminProductName" required></div><div class="form-group"><label>Категория *</label><input type="text" id="adminProductCategory" required list="adminCategoriesList"><datalist id="adminCategoriesList"></datalist></div><div class="form-group"><label>Артикул</label><input type="text" id="adminProductSku"></div><div class="form-group"><label>Цена *</label><input type="number" id="adminProductPrice" required></div><div class="form-group"><label>Описание</label><textarea id="adminProductDescription" rows="4"></textarea></div><div class="form-group"><label>Изображение</label><div class="image-upload-tabs"><button type="button" class="image-tab active" onclick="switchImageTab('url')">Ссылка</button><button type="button" class="image-tab" onclick="switchImageTab('file')">Файл</button></div><div id="image-url-content" class="image-upload-content active"><input type="text" id="adminProductImageUrl" placeholder="https://..." oninput="updateImagePreviewFromUrl()"></div><div id="image-file-content" class="image-upload-content"><input type="file" id="adminProductImageFile" accept="image/*" onchange="previewImageFile(event)"></div><div class="image-preview" id="imagePreviewContainer" style="display:none;"><img id="previewImg" src=""><button type="button" class="btn-remove-image" onclick="removeImage()">&times;</button></div><input type="hidden" id="adminProductImage" value=""></div><div class="form-actions"><button type="submit" class="btn-primary">Сохранить</button><button type="button" class="btn-secondary" onclick="cancelAdminEdit()">Отмена</button></div></form></div></div></div></div></div>
@@ -188,13 +189,19 @@
   const ADMIN_CREDENTIALS = { username: 'bwhwghgs', password: '362257' };
   let products = [], editingProductId = null, currentImageData = '', isAdminLoggedIn = false;
 
-  document.addEventListener('DOMContentLoaded', () => { loadProducts(); document.querySelector('.logo').addEventListener('click', showHome); checkAdminRemembered(); setupScrollButton(); });
+  document.addEventListener('DOMContentLoaded', () => { loadProducts(); setupScrollButton(); checkAdminRemembered(); });
 
   function checkAdminRemembered() { isAdminLoggedIn = localStorage.getItem('specprofi_admin_remembered') === 'true'; }
 
   function setupScrollButton() {
     const btn = document.getElementById('scrollTopBtn');
     window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 600 ? 'block' : 'none'; });
+  }
+
+  // ИСПРАВЛЕНО: всегда скролл наверх, даже если на главной
+  function scrollToTop() {
+    showHome();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async function loadProducts() {
@@ -241,7 +248,6 @@
     renderProducts(q ? products.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q)) : products);
   }
 
-  // АДМИНКА
   function openAdminPanel() { isAdminLoggedIn ? (document.getElementById('adminModal').classList.add('active'), renderAdminProductsList()) : openAdminLogin(); }
   function openAdminLogin() { document.getElementById('loginModal').style.display='flex'; }
   function closeLoginModal() { document.getElementById('loginModal').style.display='none'; }
